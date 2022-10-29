@@ -1,6 +1,6 @@
 ---
 layout: page
-title: What's Next?
+title: FolkTalk Beta!
 include_in_header: true
 ---
 
