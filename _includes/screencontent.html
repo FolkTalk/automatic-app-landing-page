@@ -1,47 +1,77 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 
 {% for file in site.static_files %}
-    {% if file.path contains 'assets/screenshot/' %}
-        <script>
-            $(function() {
-                $(".iphoneScreen").attr('src', '{{ site.github.baseurl }}{{ file.path }}');
-                $(".iphoneScreen").removeClass("hidden");
-                console.log("{{ file.path }}");
-            });
-        </script>
-    {% elsif file.path contains 'assets/videos/' %}
-        {% unless file.path contains 'assets/videos/Place-video-files-here.txt' %}
-            <script>
-                $(function() {
-                    $(".iphoneScreen").addClass("hidden");
-                    console.log("remove screenshot");
-                });
-            </script>
-        {% endunless %}
-        {% if file.extname == ".mov" or file.extname == ".mp4" %}
-            <script>
-                $(function() {
-                    $(".videoContainer").removeClass("hidden");
-                    $(".screenvideo").append('<source src="{{ site.github.baseurl }}{{ file.path }}" type="video/mp4">');
-                    console.log("{{ file.path }}");
-                });
-            </script>
-        {% elsif file.extname == ".ogg" %}
-            <script>
-                $(function() {
-                    $(".videoContainer").removeClass("hidden");
-                    $(".screenvideo").append('<source src="{{ site.github.baseurl }}{{ file.path }}" type="video/ogg">');
-                    console.log("{{ file.path }}");
-                });
-            </script>
-        {% elsif file.extname == ".webm" %}
-        <script>
-            $(function() {
-                $(".videoContainer").removeClass("hidden");
-                $(".screenvideo").append('<source src="{{ site.github.baseurl }}{{ file.path }}" type="video/webm">');
-                console.log("{{ file.path }}");
-            });
-        </script>
-        {% endif %}
-    {% endif %}
+{% if file.path contains 'assets/screenshot/' %}
+<script>
+    $(function () {
+        $(".iphoneScreen").attr('src', '{{ site.github.baseurl }}{{ file.path }}');
+        $(".iphoneScreen").removeClass("hidden");
+        console.log("{{ file.path }}");
+    });
+</script>
+{% elsif file.path contains 'assets/videos/' %}
+{% unless file.path contains 'assets/videos/Place-video-files-here.txt' %}
+<script>
+    $(function () {
+        $(".iphoneScreen").addClass("hidden");
+        console.log("remove screenshot");
+    });
+</script>
+{% endunless %}
+{% if file.extname == ".mov" or file.extname == ".mp4" %}
+<script>
+    $(function () {
+        $(".videoContainer").removeClass("hidden");
+        $(".screenvideo").append('<source src="{{ site.github.baseurl }}{{ file.path }}" type="video/mp4">');
+        console.log("{{ file.path }}");
+    });
+</script>
+{% elsif file.extname == ".ogg" %}
+<script>
+    $(function () {
+        $(".videoContainer").removeClass("hidden");
+        $(".screenvideo").append('<source src="{{ site.github.baseurl }}{{ file.path }}" type="video/ogg">');
+        console.log("{{ file.path }}");
+    });
+</script>
+{% elsif file.extname == ".webm" %}
+<script>
+    $(function () {
+        $(".videoContainer").removeClass("hidden");
+        $(".screenvideo").append('<source src="{{ site.github.baseurl }}{{ file.path }}" type="video/webm">');
+        console.log("{{ file.path }}");
+
+
+        var vid = document.getElementsByClassName("videoContainer");
+        var statusElement = document.getElementById("status");
+        var currentlyPlaying = 1;
+        var currentlPlayingTime;
+
+        var src1 = "https://folktalk.in/assets/videos/output.webm";
+
+        var src2 = "http://www.w3schools.com/html/mov_bbb.mp4";
+
+        function myFunction() {
+            currentlPlayingTime = vid.currentTime;
+            if (currentlyPlaying === 1) {
+                vid.src = src2;
+                currentlyPlaying = 2;
+                statusElement.innerText = 'Going to play video2..';
+            } else {
+                vid.src = src1;
+                currentlyPlaying = 1;
+                statusElement.innerText = 'Going to play video1..';
+            }
+            vid.load();
+            vid.addEventListener('loadedmetadata', function () {
+                vid.currentTime = currentlPlayingTime;
+            }, false);
+        }
+
+
+
+    });
+</script>
+{% endif %}
+{% endif %}
 {% endfor %}
